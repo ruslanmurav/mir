@@ -1,7 +1,7 @@
 from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.auth.base_config import current_user
@@ -31,16 +31,20 @@ async def create_questionnaire(
     return await crud.create_questionnaire(user_profile, session)
 
 
+
+
 @router.get(
-    "/10",
+    "/list",
     response_model=list[ResponseUserQuestionnaireSchema],
     status_code=status.HTTP_200_OK,
 )
 async def get_list_questionnaire(
     user: Annotated[AuthUser, Depends(current_user)],
     session: Annotated[AsyncSession, Depends(get_async_session)],
+    limit: int = Query(10, description="Количество записей, возвращаемых на одну страницу", ge=1, le=100),
+    offset: int = Query(0, description="Смещение от начала списка записей", ge=0),
 ):
-    return await crud.get_list_questionnaire_first_10(user, session)
+    return await crud.get_user_questionnaires(user, session, limit, offset)
 
 
 @router.patch(
