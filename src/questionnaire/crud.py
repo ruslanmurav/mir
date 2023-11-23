@@ -11,10 +11,14 @@ from src.questionnaire.schemas import (
     ResponseUserQuestionnaireSchema,
 )
 
+from sqlalchemy import select
 
-async def get_list_questionnaire_first_10(
+
+async def get_user_questionnaires(
     user: AuthUser,
     session: AsyncSession,
+    limit: int = 10,
+    offset: int = 0,
 ):
     user_questionnaire = await get_questionnaire(user_id=user.id, session=session)
     is_visible = True
@@ -26,7 +30,8 @@ async def get_list_questionnaire_first_10(
             UserQuestionnaire.gender != user_questionnaire.gender,
             UserQuestionnaire.is_visible == is_visible,
         )
-        .limit(10)
+        .offset(offset)
+        .limit(limit)
     )
     result = await session.execute(query)
     return result.scalars().fetchall()
