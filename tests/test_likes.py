@@ -123,3 +123,4 @@ class TestLike:
             f" авторизованного пользователя к `{create_like_url}` "
             "ответ содержит анкету c 'is_match':True"
         )
+

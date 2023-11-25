@@ -44,7 +44,7 @@ async def get_list_questionnaire(
     limit: int = Query(10, description="Количество записей, возвращаемых на одну страницу", ge=1, le=100),
     offset: int = Query(0, description="Смещение от начала списка записей", ge=0),
 ):
-    return await crud.get_user_questionnaires(user, session, limit, offset)
+    return await crud.get_questionnaires_list(user, session, limit, offset)
 
 
 @router.patch(

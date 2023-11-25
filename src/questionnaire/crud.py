@@ -14,7 +14,7 @@ from src.questionnaire.schemas import (
 from sqlalchemy import select
 
 
-async def get_user_questionnaires(
+async def get_questionnaires_list(
     user: AuthUser,
     session: AsyncSession,
     limit: int = 10,
